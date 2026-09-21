@@ -16,7 +16,6 @@ GO
 /* 
    TABLE: Roles
 */
-   
 CREATE TABLE dbo.Roles (
     RoleID      INT IDENTITY(1,1) NOT NULL,
     RoleName    VARCHAR(20)       NOT NULL,
@@ -24,3 +23,22 @@ CREATE TABLE dbo.Roles (
     CONSTRAINT UQ_Roles_RoleName UNIQUE (RoleName)
 );
 GO
+
+/*
+   TABLE: Users
+*/
+CREATE TABLE dbo.Users (
+    UserID          INT IDENTITY(1,1) NOT NULL,
+    RoleID          INT               NOT NULL,
+    FullName        VARCHAR(100)      NOT NULL,
+    Email           VARCHAR(150)      NOT NULL,
+    PasswordHash    VARCHAR(255)      NOT NULL,
+    PhoneNumber     VARCHAR(20)       NULL,
+    CreatedAt       DATETIME          NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT PK_Users PRIMARY KEY (UserID),
+    CONSTRAINT UQ_Users_Email UNIQUE (Email),
+    CONSTRAINT FK_Users_Roles FOREIGN KEY (RoleID)
+        REFERENCES dbo.Roles (RoleID)
+);
+GO
+
