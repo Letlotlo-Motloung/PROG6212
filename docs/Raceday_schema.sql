@@ -42,3 +42,21 @@ CREATE TABLE dbo.Users (
 );
 GO
 
+/*
+   TABLE: Events
+*/
+CREATE TABLE dbo.Events (
+    EventID         INT IDENTITY(1,1) NOT NULL,
+    OrganiserID     INT               NOT NULL,
+    EventName       VARCHAR(150)      NOT NULL,
+    EventDate       DATE              NOT NULL,
+    Location        VARCHAR(150)      NOT NULL,
+    RouteInfo       VARCHAR(255)      NULL,
+    Description     VARCHAR(MAX)      NULL,
+    CreatedAt       DATETIME          NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT PK_Events PRIMARY KEY (EventID),
+    CONSTRAINT FK_Events_Users FOREIGN KEY (OrganiserID)
+        REFERENCES dbo.Users (UserID)
+);
+GO
+
