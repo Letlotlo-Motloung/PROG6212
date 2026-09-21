@@ -75,3 +75,21 @@ CREATE TABLE dbo.Categories (
         REFERENCES dbo.Events (EventID)
 );
 GO
+
+/*
+   TABLE: Enrolments
+*/
+CREATE TABLE dbo.Enrolments (
+    EnrolmentID     INT IDENTITY(1,1) NOT NULL,
+    ParticipantID   INT               NOT NULL,
+    CategoryID      INT               NOT NULL,
+    EnrolmentDate   DATETIME          NOT NULL DEFAULT GETDATE(),
+    Status          VARCHAR(20)       NOT NULL DEFAULT 'Confirmed',
+    CONSTRAINT PK_Enrolments PRIMARY KEY (EnrolmentID),
+    CONSTRAINT FK_Enrolments_Users FOREIGN KEY (ParticipantID)
+        REFERENCES dbo.Users (UserID),
+    CONSTRAINT FK_Enrolments_Categories FOREIGN KEY (CategoryID)
+        REFERENCES dbo.Categories (CategoryID),
+    CONSTRAINT UQ_Enrolments_Participant_Category UNIQUE (ParticipantID, CategoryID)
+);
+GO
