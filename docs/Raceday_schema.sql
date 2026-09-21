@@ -121,3 +121,23 @@ CREATE TABLE dbo.Results (
 );
 GO
 
+* ============================================================
+   SEED DATA
+   ============================================================ */
+ 
+-- Roles
+INSERT INTO dbo.Roles (RoleName) VALUES ('Organiser'), ('Participant');
+GO
+ 
+-- Users: 2 Organisers, 2 Participants
+INSERT INTO dbo.Users (RoleID, FullName, Email, PasswordHash, PhoneNumber)
+VALUES
+    ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Organiser'),
+        'Thandiwe Mokoena', 'thandiwe.mokoena@raceday.co.za', 'hashed_pw_1', '0821234567'),
+    ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Organiser'),
+        'Pieter van der Merwe', 'pieter.vdm@raceday.co.za', 'hashed_pw_2', '0837654321'),
+    ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
+        'Lindiwe Dlamini', 'lindiwe.dlamini@example.com', 'hashed_pw_3', '0731112222'),
+    ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
+        'Johan Botha', 'johan.botha@example.com', 'hashed_pw_4', '0724445555');
+GO
