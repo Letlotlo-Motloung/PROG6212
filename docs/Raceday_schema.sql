@@ -175,3 +175,21 @@ VALUES
     ((SELECT EventID FROM dbo.Events WHERE EventName = 'Durban Beachfront Park Run'),
         '5km Park Run', 5.00, 1000, 0.00);
 GO
+
+-- Enrolments: sample participant sign-ups
+INSERT INTO dbo.Enrolments (ParticipantID, CategoryID, Status)
+VALUES
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com'),
+        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '21km Half Marathon'),
+        'Confirmed'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com'),
+        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '5km Park Run'),
+        'Confirmed'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@example.com'),
+        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '55km Cycle'),
+        'Confirmed'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@example.com'),
+        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '10km Fun Run'),
+        'Confirmed');
+GO
+
