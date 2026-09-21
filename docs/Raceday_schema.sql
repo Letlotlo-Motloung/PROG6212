@@ -93,3 +93,20 @@ CREATE TABLE dbo.Enrolments (
     CONSTRAINT UQ_Enrolments_Participant_Category UNIQUE (ParticipantID, CategoryID)
 );
 GO
+
+/*
+   TABLE: Results
+*/
+CREATE TABLE dbo.Results (
+    ResultID        INT IDENTITY(1,1) NOT NULL,
+    EnrolmentID     INT               NOT NULL,
+    FinishTime      TIME              NULL,
+    Position        INT               NULL,
+    Status          VARCHAR(20)       NOT NULL DEFAULT 'Finished',
+    CONSTRAINT PK_Results PRIMARY KEY (ResultID),
+    CONSTRAINT UQ_Results_EnrolmentID UNIQUE (EnrolmentID),
+    CONSTRAINT FK_Results_Enrolments FOREIGN KEY (EnrolmentID)
+        REFERENCES dbo.Enrolments (EnrolmentID)
+);
+GO
+
