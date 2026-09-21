@@ -141,3 +141,20 @@ VALUES
     ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
         'Johan Botha', 'johan.botha@example.com', 'hashed_pw_4', '0724445555');
 GO
+
+-- Events: 3 events, owned by the two organisers
+INSERT INTO dbo.Events (OrganiserID, EventName, EventDate, Location, RouteInfo, Description)
+VALUES
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'thandiwe.mokoena@raceday.co.za'),
+        'Joburg City Marathon', '2026-11-08', 'Johannesburg, Gauteng',
+        'Starts at FNB Stadium, loops through Soweto, finishes at Nasrec',
+        'Annual road marathon with 42km, 21km and 10km categories.'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'thandiwe.mokoena@raceday.co.za'),
+        'Cape Winelands Cycle Tour', '2026-12-05', 'Stellenbosch, Western Cape',
+        'Circular route through Stellenbosch, Franschhoek and Paarl',
+        'Scenic road cycling event through the Cape Winelands.'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'pieter.vdm@raceday.co.za'),
+        'Durban Beachfront Park Run', '2026-10-18', 'Durban, KwaZulu-Natal',
+        'Out-and-back route along the Golden Mile promenade',
+        'Community park run and walk open to all ages and abilities.');
+GO
