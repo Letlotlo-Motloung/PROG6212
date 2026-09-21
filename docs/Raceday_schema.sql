@@ -193,3 +193,11 @@ VALUES
         'Confirmed');
 GO
 
+-- Results: sample finish data for one already-completed event (the park run)
+INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
+VALUES
+    ((SELECT EnrolmentID FROM dbo.Enrolments
+        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com')
+        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '5km Park Run')),
+        '00:24:35', 12, 'Finished');
+GO
