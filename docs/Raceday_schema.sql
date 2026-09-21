@@ -60,3 +60,18 @@ CREATE TABLE dbo.Events (
 );
 GO
 
+/*
+   TABLE: Categories
+*/
+CREATE TABLE dbo.Categories (
+    CategoryID      INT IDENTITY(1,1) NOT NULL,
+    EventID         INT               NOT NULL,
+    CategoryName    VARCHAR(100)      NOT NULL,
+    DistanceKM      DECIMAL(6,2)      NOT NULL,
+    MaxParticipants INT               NOT NULL DEFAULT 100,
+    EntryFee        DECIMAL(8,2)      NOT NULL DEFAULT 0,
+    CONSTRAINT PK_Categories PRIMARY KEY (CategoryID),
+    CONSTRAINT FK_Categories_Events FOREIGN KEY (EventID)
+        REFERENCES dbo.Events (EventID)
+);
+GO
