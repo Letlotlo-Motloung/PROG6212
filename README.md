@@ -1,6 +1,7 @@
-**RaceDay **
+**RaceDay**
 
 **Description**
+
 RaceDay is a database system and REST-style web API for organizing large-scale athletic events like community park runs, cycling tours, and marathons.
 
 An organizer plans an event, specifies one or more racing categories (such as a 55-kilometer cycle or a 42-kilometer marathon), and then records the results for the competitors. A participant can view their own enrollment and performance history, browse upcoming events, and enrolll in a category.
