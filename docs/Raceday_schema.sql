@@ -158,3 +158,20 @@ VALUES
         'Out-and-back route along the Golden Mile promenade',
         'Community park run and walk open to all ages and abilities.');
 GO
+
+-- Categories: at least one per event
+INSERT INTO dbo.Categories (EventID, CategoryName, DistanceKM, MaxParticipants, EntryFee)
+VALUES
+    ((SELECT EventID FROM dbo.Events WHERE EventName = 'Joburg City Marathon'),
+        '42km Marathon', 42.20, 2000, 350.00),
+    ((SELECT EventID FROM dbo.Events WHERE EventName = 'Joburg City Marathon'),
+        '21km Half Marathon', 21.10, 3000, 250.00),
+    ((SELECT EventID FROM dbo.Events WHERE EventName = 'Joburg City Marathon'),
+        '10km Fun Run', 10.00, 5000, 150.00),
+    ((SELECT EventID FROM dbo.Events WHERE EventName = 'Cape Winelands Cycle Tour'),
+        '109km Cycle', 109.00, 1500, 450.00),
+    ((SELECT EventID FROM dbo.Events WHERE EventName = 'Cape Winelands Cycle Tour'),
+        '55km Cycle', 55.00, 1500, 300.00),
+    ((SELECT EventID FROM dbo.Events WHERE EventName = 'Durban Beachfront Park Run'),
+        '5km Park Run', 5.00, 1000, 0.00);
+GO
