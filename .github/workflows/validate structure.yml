@@ -1,0 +1,70 @@
+name: Validate Repository Structure
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  validate-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check /docs folder exists
+        run: |
+          if [ ! -d "docs" ]; then
+            echo "::error::Missing /docs folder. All planning documents must live in /docs."
+            exit 1
+          fi
+          echo "/docs folder found."
+
+      - name: Check for ERD (PNG or PDF)
+        run: |
+          matches=$(find docs -maxdepth 1 -iname "*erd*.png" -o -iname "*erd*.pdf" 2>/dev/null)
+          if [ -z "$matches" ]; then
+            echo "::error::No ERD file found in /docs (expected a file with 'erd' in the name, .png or .pdf)."
+            exit 1
+          fi
+          echo "ERD file found:"
+          echo "$matches"
+
+      - name: Check for API Endpoint Plan (Markdown or PDF)
+        run: |
+          matches=$(find docs -maxdepth 1 -iname "*endpoint*.md" -o -iname "*endpoint*.pdf" 2>/dev/null)
+          if [ -z "$matches" ]; then
+            echo "::error::No API Endpoint Plan found in /docs (expected a file with 'endpoint' in the name, .md or .pdf)."
+            exit 1
+          fi
+          echo "API Endpoint Plan found:"
+          echo "$matches"
+
+      - name: Check for SQL schema script
+        run: |
+          matches=$(find docs -maxdepth 1 -iname "*.sql" 2>/dev/null)
+          if [ -z "$matches" ]; then
+            echo "::error::No .sql file found in /docs."
+            exit 1
+          fi
+          echo "SQL script found:"
+          echo "$matches"
+
+      - name: Check README exists at repo root
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "::error::Missing README.md at the repository root."
+            exit 1
+          fi
+          echo "README.md found."
+
+      - name: Summary
+        run: |
+          echo "All required files are present:"
+          echo "- /docs folder"
+          echo "- ERD (PNG/PDF)"
+          echo "- API Endpoint Plan (MD/PDF)"
+          echo "- SQL schema script (.sql)"
+          echo "- README.md"
