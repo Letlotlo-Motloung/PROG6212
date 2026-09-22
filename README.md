@@ -26,4 +26,4 @@ An organizer plans an event, specifies one or more racing categories (such as a 
 1. Public (no login): browse events, browse categories, register, log in.
 2. Logged-in user: view and update their own profile, change their password, view another user's limited public profile, log out.
 
-**YouTube Link** = [[https://www.youtube.com/watch?v=fQlQIkB9vME](url)]
+
