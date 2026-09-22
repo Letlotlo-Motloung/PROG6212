@@ -121,6 +121,7 @@ CREATE TABLE dbo.Results (
 );
 GO
 
+   
 /* ============================================================
    SEED DATA
    ============================================================ */
@@ -129,40 +130,36 @@ GO
 INSERT INTO dbo.Roles (RoleName) VALUES ('Organiser'), ('Participant');
 GO
  
--- Users: 2 Organisers, 4 Participants
+-- Users: 2 Organisers, 2 Participants
 INSERT INTO dbo.Users (RoleID, FullName, Email, PasswordHash, PhoneNumber)
 VALUES
     ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Organiser'),
-        'Thandiwe Mokoena', 'thandiwe.mokoena@raceday.co.za', 'hashed_pw_1', '0821234567'),
+        'Thandiwe Mokoena', 'thandiwe.mokoena@gmail.co.za', 'hashed_pw_1', '0821234567'),
     ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Organiser'),
-        'Pieter van der Merwe', 'pieter.vdm@raceday.co.za', 'hashed_pw_2', '0837654321'),
+        'Pieter van der Merwe', 'pieter.vdm@gmail.co.za', 'hashed_pw_2', '0837654321'),
     ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
-        'Lindiwe Dlamini', 'lindiwe.dlamini@example.com', 'hashed_pw_3', '0731112222'),
+        'Lindiwe Dlamini', 'lindiwe.dlamini@gmail.com', 'hashed_pw_3', '0731112222'),
     ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
-        'Johan Botha', 'johan.botha@example.com', 'hashed_pw_4', '0724445555'),
-    ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
-        'Naledi Sithole', 'naledi.sithole@example.com', 'hashed_pw_5', '0839998888'),
-    ((SELECT RoleID FROM dbo.Roles WHERE RoleName = 'Participant'),
-        'Kagiso Ndlovu', 'kagiso.ndlovu@example.com', 'hashed_pw_6', '0716667777');
+        'Johan Botha', 'johan.botha@gmail.com', 'hashed_pw_4', '0724445555');
 GO
- 
+
 -- Events: 3 events, owned by the two organisers
 INSERT INTO dbo.Events (OrganiserID, EventName, EventDate, Location, RouteInfo, Description)
 VALUES
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'thandiwe.mokoena@raceday.co.za'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'thandiwe.mokoena@yahoo.co.za'),
         'Joburg City Marathon', '2026-11-08', 'Johannesburg, Gauteng',
         'Starts at FNB Stadium, loops through Soweto, finishes at Nasrec',
         'Annual road marathon with 42km, 21km and 10km categories.'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'thandiwe.mokoena@raceday.co.za'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'thandiwe.mokoena@yahoo.co.za'),
         'Cape Winelands Cycle Tour', '2026-12-05', 'Stellenbosch, Western Cape',
         'Circular route through Stellenbosch, Franschhoek and Paarl',
         'Scenic road cycling event through the Cape Winelands.'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'pieter.vdm@raceday.co.za'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'pieter.vdm@yahoo.co.za'),
         'Durban Beachfront Park Run', '2026-10-18', 'Durban, KwaZulu-Natal',
         'Out-and-back route along the Golden Mile promenade',
         'Community park run and walk open to all ages and abilities.');
 GO
- 
+
 -- Categories: at least one per event
 INSERT INTO dbo.Categories (EventID, CategoryName, DistanceKM, MaxParticipants, EntryFee)
 VALUES
@@ -179,90 +176,29 @@ VALUES
     ((SELECT EventID FROM dbo.Events WHERE EventName = 'Durban Beachfront Park Run'),
         '5km Park Run', 5.00, 1000, 0.00);
 GO
- 
+
 -- Enrolments: sample participant sign-ups
 INSERT INTO dbo.Enrolments (ParticipantID, CategoryID, Status)
 VALUES
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@gmail.com'),
         (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '21km Half Marathon'),
         'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@gmail.com'),
         (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '5km Park Run'),
         'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@example.com'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@gmail.com'),
         (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '55km Cycle'),
         'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@example.com'),
+    ((SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@gmail.com'),
         (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '10km Fun Run'),
-        'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'naledi.sithole@example.com'),
-        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '42km Marathon'),
-        'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'naledi.sithole@example.com'),
-        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '5km Park Run'),
-        'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'kagiso.ndlovu@example.com'),
-        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '109km Cycle'),
-        'Confirmed'),
-    ((SELECT UserID FROM dbo.Users WHERE Email = 'kagiso.ndlovu@example.com'),
-        (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '21km Half Marathon'),
-        'Cancelled');
+        'Confirmed');
 GO
- 
--- Results: sample finish data covering most of the seeded enrolments
+
+-- Results: sample finish data for one already-completed event (the park run)
 INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
 VALUES
     ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com')
+        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@gmail.com')
         AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '5km Park Run')),
         '00:24:35', 12, 'Finished');
-GO
- 
-INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
-VALUES
-    ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'lindiwe.dlamini@example.com')
-        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '21km Half Marathon')),
-        '01:45:12', 87, 'Finished');
-GO
- 
-INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
-VALUES
-    ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@example.com')
-        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '55km Cycle')),
-        '02:10:47', 34, 'Finished');
-GO
- 
--- Johan does not finish the 10km Fun Run: FinishTime/Position stay NULL
-INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
-VALUES
-    ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'johan.botha@example.com')
-        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '10km Fun Run')),
-        NULL, NULL, 'DNF');
-GO
- 
-INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
-VALUES
-    ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'naledi.sithole@example.com')
-        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '42km Marathon')),
-        '03:58:20', 210, 'Finished');
-GO
- 
-INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
-VALUES
-    ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'naledi.sithole@example.com')
-        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '5km Park Run')),
-        '00:22:10', 5, 'Finished');
-GO
- 
-INSERT INTO dbo.Results (EnrolmentID, FinishTime, Position, Status)
-VALUES
-    ((SELECT EnrolmentID FROM dbo.Enrolments
-        WHERE ParticipantID = (SELECT UserID FROM dbo.Users WHERE Email = 'kagiso.ndlovu@example.com')
-        AND CategoryID = (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = '109km Cycle')),
-        '03:45:00', 15, 'Finished');
 GO
